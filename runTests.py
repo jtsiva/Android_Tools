@@ -46,14 +46,14 @@ def prepRun(devices, num_devs, full_batt):
 
 		if num_running <= num_devs:
 			go = True
-			devices[readyDev]['running'] = True
+			devices[readyDev]['running'] = True	
 
-	return readyDev
-
-	proc = subprocess.Popen("adb shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
+	proc = subprocess.Popen("adb -s " + readyDev + " shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
+
+	return readyDev
 
 def collect(name):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -65,7 +65,7 @@ def collect(name):
 
 	proc.wait()
 
-	proc = subprocess.Popen("adb pull sdcard/btsnoop_hci.log ./" + name + "-bt_log-" + timestr + ".zip" , 
+	proc = subprocess.Popen("adb pull sdcard/btsnoop_hci.log ./" + name + "-bt_log-" + timestr + ".log" , 
 						 shell=True, 
 						 stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
@@ -80,15 +80,15 @@ def getScreenState():
 	                     stderr=subprocess.PIPE)
 
 	out = proc.stdout.read()
-	print (out)
-	print (out.split("=")[1].strip())
+	# print (out)
+	# print (out.split("=")[1].strip())
 	state =  out.split("=")[1].strip() == 'true'
 		
 	return state
 
 def toggleScreen(state):
-	print ("Change screen state to " + str(state))
-	print ("Current screen state is " + str(getScreenState()))
+	# print ("Change screen state to " + str(state))
+	# print ("Current screen state is " + str(getScreenState()))
 	if state != getScreenState():
 		proc = subprocess.Popen("adb shell input keyevent KEYCODE_POWER", 
 						 shell=True, 
@@ -142,9 +142,7 @@ def runJobs(name, jobs, devices, num_devs, require_full, output = None):
 				else:
 					disconnectUSB()
 			elif 'sleep' in action:
-				disconnectUSB()
 				time.sleep(int(action['sleep']))
-				reconnectUSB()
 
 		proc = subprocess.Popen("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0], 
 									shell=True, stdin=subprocess.PIPE,
@@ -153,6 +151,8 @@ def runJobs(name, jobs, devices, num_devs, require_full, output = None):
 		proc.wait()
 		if output is None and collectData:
 			collect(name)
+
+		devices[dev]['running'] = False
 
 
 def main():
