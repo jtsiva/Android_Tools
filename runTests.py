@@ -44,9 +44,12 @@ def prepRun(devices, num_devs, full_batt):
 			elif val['running']:
 				num_running += 1
 
-		if num_running <= num_devs:
+		if num_running <= num_devs and readyDev is not None:
 			go = True
-			devices[readyDev]['running'] = True	
+			devices[readyDev]['running'] = True
+		elif readyDev is None and full_batt:
+			print("Waiting for a dev to charge to full...")
+			time.sleep(300)
 
 	proc = subprocess.Popen("adb -s " + readyDev + " shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
