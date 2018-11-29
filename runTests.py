@@ -52,7 +52,14 @@ def prepRun(devices, full_batt):
 			print("Waiting for a dev to charge to full...")
 			time.sleep(300)
 
+	#Reset battery stats
 	proc = subprocess.Popen("adb -s " + readyDev + " shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
+	                     stdout=subprocess.PIPE,
+	                     stderr=subprocess.PIPE)
+	proc.wait()
+
+	#Reset logcat logs
+	proc = subprocess.Popen("adb -s " + readyDev + " logcat -c" , shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
