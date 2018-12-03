@@ -3,20 +3,29 @@ import argparse
 import subprocess
 import os
 import time
+import re
 
 def checkUserIsRoot():
 	return 0 == os.getuid()
 
 # from https://ubuntuforums.org/showthread.php?t=2218791
 # ID from lspci and "ll /sys/bus/usb/drivers/usb/" 
-def disconnectUSB():
-	proc = subprocess.Popen("echo -n '0000:00:14.0' > /sys/bus/pci/drivers/xhci_hcd/unbind" , shell=True, stdin=subprocess.PIPE,
+def disconnectUSB(dev):
+	proc = subprocess.Popen("uhubctl | grep " + dev, shell=True, stdin=subprocess.PIPE,
+	                     stdout=subprocess.PIPE,
+	                     stderr=subprocess.PIPE)
+	out = proc.stdout.readlines()
+	port = re.search(r'\d+', out[0]).group()
+
+	proc = subprocess.Popen("uhubctl -a 0 -p " + port, shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
 
-def reconnectUSB():
-	proc = subprocess.Popen("echo -n '0000:00:14.0' > /sys/bus/pci/drivers/xhci_hcd/bind" , shell=True, stdin=subprocess.PIPE,
+	return port
+	
+def reconnectUSB(port):
+	proc = subprocess.Popen("uhubctl -a 1 -p " + port, shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
@@ -125,6 +134,7 @@ def runJobs(name, jobs, devices, num_devs, require_full, output = None):
 	                     stderr=subprocess.PIPE)
 		proc.wait()
 		collectData = False
+		port = None
 		for action in job['actions']:
 			if 'button' in action:
 				pressButton(action['button'])
@@ -141,9 +151,9 @@ def runJobs(name, jobs, devices, num_devs, require_full, output = None):
 				toggleScreen(action['screenOn'])
 			elif 'pluggedIn' in action:
 				if action['pluggedIn']:
-					reconnectUSB()
+					reconnectUSB(port)
 				else:
-					disconnectUSB()
+					port = disconnectUSB(dev)
 			elif 'sleep' in action:
 				time.sleep(int(action['sleep']))
 
