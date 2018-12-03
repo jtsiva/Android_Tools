@@ -46,6 +46,7 @@ def prepRun(devices, full_batt):
 
 		if readyDev is not None:
 			go = True
+			print (readyDev + " is ready!")
 			with deviceLock:
 				devices[readyDev]['running'] = True
 		elif readyDev is None and full_batt:
@@ -53,16 +54,29 @@ def prepRun(devices, full_batt):
 			time.sleep(300)
 
 	#Reset battery stats
+	print("resetting battery stats..."), 
 	proc = subprocess.Popen("adb -s " + readyDev + " shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
+	print ("done!")
 
 	#Reset logcat logs
+	print ("resetting logcat logs..."), 
 	proc = subprocess.Popen("adb -s " + readyDev + " logcat -c" , shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
 	proc.wait()
+	print("done!")
+
+	#Get state of the bt logs before starting
+	print ("getting current state of btsnoop_hci.log..."), 
+	timestr = time.strftime("%Y%m%d-%H%M%S")
+	proc = subprocess.Popen("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + timestr + ".log"  , shell=True, stdin=subprocess.PIPE,
+	                     stdout=subprocess.PIPE,
+	                     stderr=subprocess.PIPE)
+	proc.wait()
+	print("done!")
 
 	return readyDev
 
@@ -202,7 +216,7 @@ def main():
 	
 	print("running job: " + jobs['job_name'])
 
-	with concurrent.futures.ThreadPoolExecutor(max_workers=args.num_devs) as executor:
+	with concurrent.futures.ThreadPoolExecutor(max_workers=int(args.num_devs)) as executor:
 		# Start the load operations and mark each future with its URL
 		future_to_job = {executor.submit(runJob, jobs["job_name"], job, devices, args.full_batt, args.output): job for job in jobs['jobs']}
 		for future in concurrent.futures.as_completed(future_to_job):
