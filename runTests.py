@@ -41,25 +41,31 @@ def getBatteryLevel(dev):
 	proc = subprocess.Popen("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", shell=True, stdin=subprocess.PIPE,
 	                         stdout=subprocess.PIPE,
 	                         stderr=subprocess.PIPE)
-	return int(proc.stdout.readlines()[0].split(':')[1].strip())
+	try:
+		out = proc.stdout.readlines()
+		print ('cmdOutput: ' + str(out))
+		batt = out[0].split(':')[1].strip()
+		#print ('getBatteryLevel: ' +batt)
+		return int(batt)
+	except Exception as e:
+		print(e)
 
 def prepRun(devices, name, full_batt):
 	go = False
 	readyDev = None
 	while not go:
 		for dev, val in devices.items():
-			devices[dev]['battery'] = getBatteryLevel(dev)
 			with deviceLock:
 				if not val['running']:
+					devices[dev]['battery'] = getBatteryLevel(dev)
 					if (full_batt and 100 == devices[dev]['battery']) or not full_batt:
 						readyDev = dev
+						go = True
+						print (readyDev + " is ready!")
+						devices[readyDev]['running'] = True
+						break
 
-		if readyDev is not None:
-			go = True
-			print (readyDev + " is ready!")
-			with deviceLock:
-				devices[readyDev]['running'] = True
-		elif readyDev is None and full_batt:
+		if readyDev is None and full_batt:
 			print("Waiting for a dev to charge to full...")
 			time.sleep(300)
 
