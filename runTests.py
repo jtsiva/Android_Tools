@@ -20,7 +20,7 @@ def runCmd(cmd, output = False):
 		if output:
 			out = proc.stdout.read()
 		else:
-		proc.wait()
+			proc.wait()
 
 	return out
 	
@@ -41,7 +41,7 @@ def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
 	try:
 		out = all.split('\n')
-		print ('cmdOutput: ' + str(out))
+		#print ('cmdOutput: ' + str(out))
 		batt = out[0].split(':')[1].strip()
 		#print ('getBatteryLevel: ' +batt)
 		return int(batt)
@@ -121,7 +121,7 @@ def runJob(job, dev, output):
 	if not os.path.isdir(output):
 		output = './'
 
-	print ("running + " + name + " on " + dev)
+	print ("running " + name + " on " + dev)
 
 	if 'None' not in job['app']:
 		runCmd("adb -s " + dev + " shell am start -n " + job['app'])
@@ -151,8 +151,6 @@ def runJob(job, dev, output):
 	if collectData:
 		collect(dev, name, output)
 
-
-	devices[dev]['running'] = False
 
 
 def main():
@@ -191,17 +189,18 @@ def main():
 	maxConcurrent = min(totalDevs, args.num_devs)
 	runningDevs = 0
 	threads = []
-	for job in jobs:
+	for job in jobs['jobs']:
 		dev = prepRun(devices, job['name'], args.full_batt)
-		threads.append(Thread(target = runJob, args = (job, dev, args.output, )))
-		thread[-1].start()
+		threads.append(threading.Thread(target = runJob, args = (job, dev, args.output, )))
+		threads[-1].start()
 		
 		runningDevs += 1
 
 		if runningDevs == maxConcurrent:
-    			thread[0].join()
-			thread.pop(0)
+    			threads[0].join()
+			threads.pop(0)
 			runningDevs -= 1
+			devices[dev]['running'] = False
 		
 		 
 			
