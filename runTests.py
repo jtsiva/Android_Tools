@@ -4,45 +4,43 @@ import subprocess
 import os
 import time
 import re
-import concurrent.futures
 import threading
 
 
 def checkUserIsRoot():
 	return 0 == os.getuid()
 
-# from https://ubuntuforums.org/showthread.php?t=2218791
-# ID from lspci and "ll /sys/bus/usb/drivers/usb/" 
+def runCmd(cmd, output = False):
+	out = None
+	with opLock:
+		proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+		                     stdout=subprocess.PIPE,
+		                     stderr=subprocess.PIPE)
+		
+		if output:
+			out = proc.stdout.read()
+		else:
+		proc.wait()
+
+	return out
+	
+
 def disconnectUSB(dev):
-	proc = subprocess.Popen("uhubctl | grep " + dev, shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	out = proc.stdout.readlines()
+	out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
 	port = re.search(r'\d+', out[0]).group()
 
-	proc = subprocess.Popen("uhubctl -a 0 -p " + port, shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("uhubctl -a 0 -p " + port)
 
 	return port
 	
 def reconnectUSB(port):
-	proc = subprocess.Popen("uhubctl -a 1 -p " + port, shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("uhubctl -a 1 -p " + port)
 	time.sleep(5)
 
-def writeToFile(job):
-	timestr = time.strftime("%Y%m%d-%H%M%S")
-
 def getBatteryLevel(dev):
-	proc = subprocess.Popen("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", shell=True, stdin=subprocess.PIPE,
-	                         stdout=subprocess.PIPE,
-	                         stderr=subprocess.PIPE)
+	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
 	try:
-		out = proc.stdout.readlines()
+		out = all.split('\n')
 		print ('cmdOutput: ' + str(out))
 		batt = out[0].split(':')[1].strip()
 		#print ('getBatteryLevel: ' +batt)
@@ -55,15 +53,14 @@ def prepRun(devices, name, full_batt):
 	readyDev = None
 	while not go:
 		for dev, val in devices.items():
-			with deviceLock:
-				if not val['running']:
-					devices[dev]['battery'] = getBatteryLevel(dev)
-					if (full_batt and 100 == devices[dev]['battery']) or not full_batt:
-						readyDev = dev
-						go = True
-						print (readyDev + " is ready!")
-						devices[readyDev]['running'] = True
-						break
+			if not val['running']:
+				devices[dev]['battery'] = getBatteryLevel(dev)
+				if (full_batt and 100 == devices[dev]['battery']) or not full_batt:
+					readyDev = dev
+					go = True
+					print (readyDev + " is ready!")
+					devices[readyDev]['running'] = True
+					break
 
 		if readyDev is None and full_batt:
 			print("Waiting for a dev to charge to full...")
@@ -71,56 +68,31 @@ def prepRun(devices, name, full_batt):
 
 	#Reset battery stats
 	print("resetting battery stats..."), 
-	proc = subprocess.Popen("adb -s " + readyDev + " shell dumpsys batterystats --reset" , shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s " + readyDev + " shell dumpsys batterystats --reset")
 	print ("done!")
 
 	#Reset logcat logs
 	print ("resetting logcat logs..."), 
-	proc = subprocess.Popen("adb -s " + readyDev + " logcat -c" , shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s " + readyDev + " logcat -c")
 	print("done!")
 
 	#Get state of the bt logs before starting
 	print ("getting current state of btsnoop_hci.log..."), 
 	timestr = time.strftime("%Y%m%d-%H%M%S")
-	proc = subprocess.Popen("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + name+ "_" + timestr + ".log"  , shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + name+ "_" + timestr + ".log")
 	print("done!")
 
 	return readyDev
 
 def collect(dev, name, output):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
-	proc = subprocess.Popen("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip" , 
-						 shell=True, 
-						 stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
 
-	proc.wait()
-
-	proc = subprocess.Popen("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log" , 
-						 shell=True, 
-						 stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
+	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
 
 def getScreenState(dev):
-	proc = subprocess.Popen("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", 
-						 shell=True, 
-						 stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-
-	out = proc.stdout.read()
+	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
+	
 	# print (out)
 	# print (out.split("=")[1].strip())
 	state =  out.split("=")[1].strip() == 'true'
@@ -131,43 +103,29 @@ def toggleScreen(dev, state):
 	# print ("Change screen state to " + str(state))
 	# print ("Current screen state is " + str(getScreenState()))
 	if state != getScreenState(dev):
-		proc = subprocess.Popen("adb -s " + dev + " shell input keyevent KEYCODE_POWER", 
-						 shell=True, 
-						 stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
-		proc.wait()
+		runCmd("adb -s " + dev + " shell input keyevent KEYCODE_POWER")
 
 		while state != getScreenState(dev):
 			time.sleep(.5)
 
 #From: https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
 def pressButton(dev, name):
-	proc = subprocess.Popen("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$2)/2, ($3+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -", 
-									shell=True, stdin=subprocess.PIPE,
-	                     			stdout=subprocess.PIPE,
-	                     			stderr=subprocess.PIPE)
-	coords = proc.stdout.read()
+	coords = runCmd("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$2)/2, ($3+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -",
+			output=True)
 
-	proc = subprocess.Popen("adb -s " + dev + " shell input tap " + coords, 
-									shell=True, stdin=subprocess.PIPE,
-	                     			stdout=subprocess.PIPE,
-	                     			stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s " + dev + " shell input tap " + coords)
+	
 
-def runJob(job, devices, require_full, output):
+def runJob(job, dev, output):
 	name = job['name']
 	if not os.path.isdir(output):
 		output = './'
 
-	dev = prepRun(devices, name, require_full)
-	print ("running on " + dev)
+	print ("running + " + name + " on " + dev)
 
 	if 'None' not in job['app']:
-		proc = subprocess.Popen("adb -s " + dev + " shell am start -n " + job['app'] , shell=True, stdin=subprocess.PIPE,
-		                	stdout=subprocess.PIPE,
-	                     		stderr=subprocess.PIPE)
-		proc.wait()
+		runCmd("adb -s " + dev + " shell am start -n " + job['app'])
+	
 	
 	collectData = False
 	port = None
@@ -175,12 +133,7 @@ def runJob(job, devices, require_full, output):
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
-			proc = subprocess.Popen("adb -s " + dev + " shell input text " 
-								+ str(action['text']), 
-								shell=True, stdin=subprocess.PIPE,
-                     			stdout=subprocess.PIPE,
-                     			stderr=subprocess.PIPE)
-			proc.wait()
+			runCmd("adb -s " + dev + " shell input text " + str(action['text']))
 		elif 'collect' in action:
 			collectData = True
 		elif 'screenOn' in action:
@@ -193,16 +146,13 @@ def runJob(job, devices, require_full, output):
 		elif 'sleep' in action:
 			time.sleep(int(action['sleep']))
 
-	proc = subprocess.Popen("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0], 
-								shell=True, stdin=subprocess.PIPE,
-                     			stdout=subprocess.PIPE,
-                     			stderr=subprocess.PIPE)
-	proc.wait()
+	runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
+
 	if collectData:
 		collect(dev, name, output)
 
-	with deviceLock:
-		devices[dev]['running'] = False
+
+	devices[dev]['running'] = False
 
 
 def main():
@@ -235,15 +185,27 @@ def main():
 	                         stderr=subprocess.PIPE)
 		devices[devName]['battery'] = int(proc.stdout.readlines()[0].split(':')[1].strip())
 	
-	print("running job: " + jobs['name'])
+	print("running job batch: " + jobs['name'])
 
-	with concurrent.futures.ThreadPoolExecutor(max_workers=int(args.num_devs)) as executor:
-		# Start the load operations and mark each future with its URL
-		future_to_job = {executor.submit(runJob, job, devices, args.full_batt, args.output): job for job in jobs['jobs']}
-		for future in concurrent.futures.as_completed(future_to_job):
-		    res = future.result()
-	
+	totalDevs = len(devices)
+	maxConcurrent = min(totalDevs, args.num_devs)
+	runningDevs = 0
+	threads = []
+	for job in jobs:
+		dev = prepRun(devices, job['name'], args.full_batt)
+		threads.append(Thread(target = runJob, args = (job, dev, args.output, )))
+		thread[-1].start()
+		
+		runningDevs += 1
+
+		if runningDevs == maxConcurrent:
+    			thread[0].join()
+			thread.pop(0)
+			runningDevs -= 1
+		
+		 
+			
 
 if __name__ == '__main__':
-	deviceLock = threading.Lock()
+	opLock = threading.Lock()
 	main()
