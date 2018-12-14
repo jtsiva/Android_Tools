@@ -33,9 +33,16 @@ def disconnectUSB(dev):
 
 	return port
 	
-def reconnectUSB(port):
+def reconnectUSB(dev, port):
 	runCmd("uhubctl -a 1 -p " + port)
-	time.sleep(5)
+	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	while not (1 == int(out)):
+		print("."),
+		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
+		time.sleep(1)
+		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+
+	print("")
 
 def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
@@ -48,19 +55,17 @@ def getBatteryLevel(dev):
 	except Exception as e:
 		print(e)
 
-def prepRun(devices, name, full_batt):
+def prepRun(devices, name, jobCount, full_batt):
 	go = False
 	readyDev = None
+	devIndex =  jobCount % len(devices)
+	
 	while not go:
-		for dev, val in devices.items():
-			if not val['running']:
-				devices[dev]['battery'] = getBatteryLevel(dev)
-				if (full_batt and 100 == devices[dev]['battery']) or not full_batt:
-					readyDev = dev
-					go = True
-					print (readyDev + " is ready!")
-					devices[readyDev]['running'] = True
-					break
+		devices[devIndex]['battery'] = getBatteryLevel(devices[devIndex]['id'])
+		if (full_batt and 100 == devices[devIndex]['battery']) or not full_batt:
+			readyDev = devices[devIndex]['id']
+			go = True
+			print (readyDev + " is ready!")
 
 		if readyDev is None and full_batt:
 			print("Waiting for a dev to charge to full...")
@@ -130,6 +135,7 @@ def runJob(job, dev, output):
 	collectData = False
 	port = None
 	for action in job['actions']:
+		print(dev + ": " + str(action))
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
@@ -140,13 +146,14 @@ def runJob(job, dev, output):
 			toggleScreen(dev, action['screenOn'])
 		elif 'pluggedIn' in action:
 			if action['pluggedIn']:
-				reconnectUSB(port)
+				reconnectUSB(dev, port)
 			else:
 				port = disconnectUSB(dev)
 		elif 'sleep' in action:
 			time.sleep(int(action['sleep']))
 
-	runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
+	if 'None' not in job['app']:
+		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
 
 	if collectData:
 		collect(dev, name, output)
@@ -171,36 +178,33 @@ def main():
 	proc = subprocess.Popen("adb devices | grep -w 'device'", shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
 	                     stderr=subprocess.PIPE)
-	devices = {}
+	devices = []
 	for line in proc.stdout.readlines():
-		devices[line.split('\t')[0]] = {"running" : False}
+		devices.append({"id" : line.split('\t')[0], "running" : False})
 
 	#print(devices)
 
-	for devName,val in devices.items():
-		proc = subprocess.Popen("adb -s " + devName + " shell dumpsys battery | grep -m 1 level", shell=True, stdin=subprocess.PIPE,
+	for dev in devices:
+		proc = subprocess.Popen("adb -s " + dev['id'] + " shell dumpsys battery | grep -m 1 level", shell=True, stdin=subprocess.PIPE,
 	                         stdout=subprocess.PIPE,
 	                         stderr=subprocess.PIPE)
-		devices[devName]['battery'] = int(proc.stdout.readlines()[0].split(':')[1].strip())
+		dev['battery'] = int(proc.stdout.readlines()[0].split(':')[1].strip())
 	
 	print("running job batch: " + jobs['name'])
 
-	totalDevs = len(devices)
-	maxConcurrent = min(totalDevs, args.num_devs)
-	runningDevs = 0
+	maxConcurrent = min(len(devices), args.num_devs)
+	
 	threads = []
+	jobCount = 0
 	for job in jobs['jobs']:
-		dev = prepRun(devices, job['name'], args.full_batt)
+		dev = prepRun(devices, job['name'], jobCount, args.full_batt)
 		threads.append(threading.Thread(target = runJob, args = (job, dev, args.output, )))
-		threads[-1].start()
-		
-		runningDevs += 1
+		jobCount += 1
+		threads[-1].start()		
 
-		if runningDevs == maxConcurrent:
+		if len(threads) == maxConcurrent:
     			threads[0].join()
 			threads.pop(0)
-			runningDevs -= 1
-			devices[dev]['running'] = False
 		
 		 
 			
