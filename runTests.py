@@ -139,7 +139,7 @@ def runJob(job, dev, output):
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
-			runCmd("adb -s " + dev + " shell input text " + str(action['text']))
+			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%%s"))
 		elif 'collect' in action:
 			collectData = True
 		elif 'screenOn' in action:
