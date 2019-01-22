@@ -6,6 +6,7 @@ import time
 import re
 import threading
 
+advLogging = False
 
 def checkUserIsRoot():
 	return 0 == os.getuid()
@@ -94,6 +95,8 @@ def collect(dev, name, output):
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
+	if advLogging:
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_log-" + timestr + ".log")
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
@@ -139,6 +142,9 @@ def runJob(job, dev, output):
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
+			if "--log-adv-t" in action['text']:
+				advLogging = True
+
 			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%%s"))
 		elif 'collect' in action:
 			collectData = True
