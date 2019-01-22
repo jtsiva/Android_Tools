@@ -6,7 +6,6 @@ import time
 import re
 import threading
 
-advLogging = False
 
 def checkUserIsRoot():
 	return 0 == os.getuid()
@@ -90,7 +89,7 @@ def prepRun(devices, name, jobCount, full_batt):
 
 	return readyDev
 
-def collect(dev, name, output):
+def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
@@ -137,6 +136,8 @@ def runJob(job, dev, output):
 	
 	collectData = False
 	port = None
+
+	advLogging = False
 	for action in job['actions']:
 		print(dev + ": " + str(action))
 		if 'button' in action:
@@ -162,7 +163,7 @@ def runJob(job, dev, output):
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
 
 	if collectData:
-		collect(dev, name, output)
+		collect(dev, name, output, advLogging)
 
 
 
