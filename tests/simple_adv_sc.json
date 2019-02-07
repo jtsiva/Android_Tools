@@ -1,0 +1,26 @@
+{
+	"name" : "simple_adv_sc",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner",
+			"actions" : [		 {"text" : "--central --log-adv-t"},
+						 {"button" : "GO"},
+						 {"screenOn": false}, 
+						 {"sleep" : 20},
+						 {"screenOn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "advertiser",
+			"actions" : [		 {"text" : "--peripheral"},
+						 {"button" : "GO"},
+						 {"screenOn": false}, 
+						 {"sleep" : 20},
+						 {"screenOn": true},
+						 {"collect" : true} ]
+		}
+	]
+}
