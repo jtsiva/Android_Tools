@@ -1,0 +1,14 @@
+{
+	"name" : "simple",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name": "idle",
+			"actions" : [{"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true} ]
+		}
+	]
+}

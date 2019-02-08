@@ -1,0 +1,79 @@
+{
+	"name" : "peripheral_4_2hr_test",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_1",
+			"actions" : [{"text" : "--peripheral"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 7200},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_1",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 7200},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_2",
+			"actions" : [{"text" : "--peripheral"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 7200},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_2",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 7200},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_3",
+			"actions" : [{"text" : "--peripheral"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 7200},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_3",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 7200},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_4",
+			"actions" : [{"text" : "--peripheral"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 7200},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_4",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 7200},
+					{"pluggedIn": true},
+					{"collect": true}]
+		}
+		
+	]
+}

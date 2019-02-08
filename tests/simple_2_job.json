@@ -1,0 +1,22 @@
+{
+	"name" : "simple_2_job",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "job_1",
+			"actions" : [{"button" : "GO"},
+						 {"screenOn": false}, 
+						 {"sleep" : 10},
+						 {"screenOn": true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "job_2",
+			"actions" : [{"button" : "GO"},
+						 {"screenOn": false}, 
+						 {"sleep" : 10},
+						 {"screenOn": true} ]
+		}
+	]
+}

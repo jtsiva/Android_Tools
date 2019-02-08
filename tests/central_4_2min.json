@@ -1,0 +1,78 @@
+{
+	"name" : "central_4_2min_test",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_1",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 120},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_1",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 120},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_2",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 120},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_2",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 120},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_3",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 120},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_3",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 120},
+					{"pluggedIn": true},
+					{"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_4",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 120},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "None",
+			"name" : "idle_4",
+			"actions" : [{"pluggedIn": false},
+					{"sleep" : 120},
+					{"pluggedIn": true},
+					{"collect": true}]
+		}
+	]
+}
