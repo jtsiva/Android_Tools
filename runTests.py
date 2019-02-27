@@ -173,6 +173,7 @@ def main():
 	parser.add_argument ("-o", "--output", required = False, default='./', help="path to output directory")
 	parser.add_argument ("-n", "--num_devs", default=1, help="number of devices to use")
 	parser.add_argument('--full_batt', help='Require devices to have a full battery to run', action='store_true')
+	parser.add_argument ('--sync', help='when -n is greater than 1, waits for all devices to be ready', action='store_true')
 	args =  parser.parse_args()
 
 	if not checkUserIsRoot():
@@ -207,11 +208,20 @@ def main():
 		dev = prepRun(devices, job['name'], jobCount, args.full_batt)
 		threads.append(threading.Thread(target = runJob, args = (job, dev, args.output, )))
 		jobCount += 1
-		threads[-1].start()		
+		
+		if args.sync:
+			if len(threads) == maxConcurrent:
+				for t in threads:
+					t.start()
+				for t in threads:
+					t.join()
+				del threads[:]
+		else:
+			threads[-1].start()		
 
-		if len(threads) == maxConcurrent:
-    			threads[0].join()
-			threads.pop(0)
+			if len(threads) == maxConcurrent:
+	    		threads[0].join()
+				threads.pop(0)
 		
 		 
 			
