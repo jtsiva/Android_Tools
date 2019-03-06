@@ -148,7 +148,7 @@ def runJob(job, dev, output):
 			if "--log-adv-t" in action['text']:
 				advLogging = True
 
-			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%%s"))
+			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
 		elif 'collect' in action:
 			collectData = True
 		elif 'screenOn' in action:
