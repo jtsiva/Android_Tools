@@ -35,11 +35,12 @@ def disconnectUSB(dev):
 	
 def reconnectUSB(dev, port):
 	runCmd("uhubctl -a 1 -p " + port)
+	time.sleep(3)
 	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
 	while not (1 == int(out)):
 		print("."),
 		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
-		time.sleep(1)
+		time.sleep(3)
 		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
 
 	print("")
@@ -78,7 +79,7 @@ def prepRun(devices, name, jobCount, full_batt):
 
 	#Reset logcat logs
 	print ("resetting logcat logs..."), 
-	runCmd("adb -s " + readyDev + " logcat -c")
+	runCmd("adb -s " + readyDev + " logcat -b all -c")
 	print("done!")
 
 	#Get state of the bt logs before starting
