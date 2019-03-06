@@ -12,14 +12,14 @@ def checkUserIsRoot():
 
 def runCmd(cmd, output = False):
 	out = None
-	with opLock:
-		proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-		                     stdout=subprocess.PIPE,
-		                     stderr=subprocess.PIPE)
-		
-		if output:
-			out = proc.stdout.read()
-		else:
+	#with opLock:
+	proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+	                     stdout=subprocess.PIPE,
+	                     stderr=subprocess.PIPE)
+	
+	if output:
+		out = proc.stdout.read()
+	else:
 			proc.wait()
 
 	return out
@@ -56,7 +56,7 @@ def getBatteryLevel(dev):
 	except Exception as e:
 		print(e)
 
-def prepRun(devices, name, jobCount, full_batt):
+def checkDevAvailability (devices, jobCount, full_batt):
 	go = False
 	readyDev = None
 	devIndex =  jobCount % len(devices)
@@ -72,6 +72,9 @@ def prepRun(devices, name, jobCount, full_batt):
 			print("Waiting for a dev to charge to full...")
 			time.sleep(300)
 
+	return readyDev
+
+def prepRun(readyDev, name):
 	#Reset battery stats
 	print("resetting battery stats..."), 
 	runCmd("adb -s " + readyDev + " shell dumpsys batterystats --reset")
@@ -87,8 +90,6 @@ def prepRun(devices, name, jobCount, full_batt):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + name+ "_" + timestr + ".log")
 	print("done!")
-
-	return readyDev
 
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
@@ -204,26 +205,31 @@ def main():
 	maxConcurrent = min(len(devices), args.num_devs)
 	
 	threads = []
+	runningDevs = []
 	jobCount = 0
 	for job in jobs['jobs']:
-		dev = prepRun(devices, job['name'], jobCount, args.full_batt)
+		dev = checkDevAvailability(devices,  jobCount, args.full_batt)
+		
+		runningDevs.append((dev, job['name']))
 		threads.append(threading.Thread(target = runJob, args = (job, dev, args.output, )))
 		jobCount += 1
 		
 		if args.sync:
 			if len(threads) == maxConcurrent:
-				for t in threads:
+				for t, d in zip(threads, runningDevs):
+					prepRun(d[0], d[1])
 					t.start()
 				for t in threads:
 					t.join()
 				del threads[:]
+				del runningDevs[:]
 		else:
+			prepRun(dev, job['name'],)
 			threads[-1].start()		
 
 			if len(threads) == maxConcurrent:
 	    			threads[0].join()
-				threads.pop(0)
-		
+				threads.pop(0)		
 		 
 			
 
