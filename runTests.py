@@ -26,24 +26,26 @@ def runCmd(cmd, output = False):
 	
 
 def disconnectUSB(dev):
-	out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
-	port = re.search(r'\d+', out[0]).group()
+	# out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
+	# port = re.search(r'\d+', out[0]).group()
 
-	runCmd("uhubctl -a 0 -p " + port)
+	# runCmd("uhubctl -a 0 -p " + port)
 
-	return port
+	print ("Operation not supported")
+	return -1
 	
 def reconnectUSB(dev, port):
-	runCmd("uhubctl -a 1 -p " + port)
-	time.sleep(3)
-	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
-	while not (1 == int(out)):
-		print("."),
-		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
-		time.sleep(3)
-		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	# runCmd("uhubctl -a 1 -p " + port)
+	# time.sleep(3)
+	# out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	# while not (1 == int(out)):
+	# 	print("."),
+	# 	runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
+	# 	time.sleep(3)
+	# 	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
 
-	print("")
+	# print("")
+	print("Operation not supported")
 
 def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
@@ -96,8 +98,9 @@ def collect(dev, name, output, advLogging):
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
+	runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt " + output + name + "-gatt_cap-" + timestr + ".log")
 	if advLogging:
-		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_log-" + timestr + ".log")
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_cap-" + timestr + ".log")
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
