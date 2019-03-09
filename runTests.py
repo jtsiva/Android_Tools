@@ -70,7 +70,7 @@ def checkDevAvailability (devices, jobCount, full_batt):
 
 		if readyDev is None and full_batt:
 			print("Waiting for a dev to charge to full...")
-			time.sleep(300)
+			time.sleep(60)
 
 	return readyDev
 
