@@ -74,7 +74,7 @@ def checkDevAvailability (devices, jobCount, full_batt):
 
 	return readyDev
 
-def prepRun(readyDev, name):
+def prepRun(readyDev, name, output):
 	#Reset battery stats
 	print("resetting battery stats..."), 
 	runCmd("adb -s " + readyDev + " shell dumpsys batterystats --reset")
@@ -88,7 +88,7 @@ def prepRun(readyDev, name):
 	#Get state of the bt logs before starting
 	print ("getting current state of btsnoop_hci.log..."), 
 	timestr = time.strftime("%Y%m%d-%H%M%S")
-	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + name+ "_" + timestr + ".log")
+	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
 	print("done!")
 
 def collect(dev, name, output, advLogging):
@@ -217,14 +217,14 @@ def main():
 		if args.sync:
 			if len(threads) == maxConcurrent:
 				for t, d in zip(threads, runningDevs):
-					prepRun(d[0], d[1])
+					prepRun(d[0], d[1], args.output)
 					t.start()
 				for t in threads:
 					t.join()
 				del threads[:]
 				del runningDevs[:]
 		else:
-			prepRun(dev, job['name'],)
+			prepRun(dev, job['name'],args.output)
 			threads[-1].start()		
 
 			if len(threads) == maxConcurrent:
