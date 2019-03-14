@@ -4,22 +4,42 @@
 	[
 		{
 			"app" : "com.adafruit.bleuart/.ArgumentSplash",
-			"name" : "scanner",
-			"actions" : [		 {"text" : "--central --log-adv-t"},
+			"name" : "scanner_0",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
 						 {"button" : "GO"},
-						 {"screenOn": false}, 
+						 {"pluggedIn": false}, 
 						 {"sleep" : 20},
-						 {"screenOn": true},
+						 {"pluggedIn": true},
 						 {"collect" : true} ]
 		},
 		{
 			"app" : "com.adafruit.bleuart/.ArgumentSplash",
-			"name" : "advertiser",
-			"actions" : [		 {"text" : "--peripheral"},
+			"name" : "advertiser_0",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
 						 {"button" : "GO"},
-						 {"screenOn": false}, 
+						 {"pluggedIn": false}, 
 						 {"sleep" : 20},
-						 {"screenOn": true},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_1",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "advertiser_1",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
 						 {"collect" : true} ]
 		}
 	]

@@ -93,6 +93,12 @@ def prepRun(readyDev, name):
 	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log ./btsnoop_start_" + name+ "_" + timestr + ".log")
 	print("done!")
 
+	#Delete advertising stats
+	print ("deleting packet capture files..."),
+	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/cap.txt")
+	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt")
+	print("done!")
+
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
