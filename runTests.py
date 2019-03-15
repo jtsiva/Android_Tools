@@ -29,26 +29,24 @@ def runCmd(cmd, output = False, bg  = False):
 	
 
 def disconnectUSB(dev):
-	# out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
-	# port = re.search(r'\d+', out[0]).group()
+	out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
+	port = re.search(r'\d+', out[0]).group()
 
-	# runCmd("uhubctl -a 0 -p " + port)
+	runCmd("uhubctl -a 0 -p " + port)
 
-	print ("Operation not supported")
-	return -1
+	return port
 	
 def reconnectUSB(dev, port):
-	# runCmd("uhubctl -a 1 -p " + port)
-	# time.sleep(3)
-	# out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
-	# while not (1 == int(out)):
-	# 	print("."),
-	# 	runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
-	# 	time.sleep(3)
-	# 	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	runCmd("uhubctl -a 1 -p " + port)
+	time.sleep(3)
+	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	while not (1 == int(out)):
+		print("."),
+		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
+		time.sleep(3)
+		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
 
-	# print("")
-	print("Operation not supported")
+	print("")
 
 def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
