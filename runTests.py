@@ -77,28 +77,31 @@ def checkDevAvailability (devices, jobCount, full_batt):
 
 	return readyDev
 
-def prepRun(readyDev, name, output):
-	#Reset battery stats
-	print("resetting battery stats..."), 
-	runCmd("adb -s " + readyDev + " shell dumpsys batterystats --reset")
-	print ("done!")
+def prepRun(readyDev, name, output, needBTSave = True):
+	
+	if 'hold' not in name:
+		#Reset battery stats
+		print("resetting battery stats..."), 
+		runCmd("adb -s " + readyDev + " shell dumpsys batterystats --reset")
+		print ("done!")
 
-	#Reset logcat logs
-	print ("resetting logcat logs..."), 
-	runCmd("adb -s " + readyDev + " logcat -b all -c")
-	print("done!")
+		#Reset logcat logs
+		print ("resetting logcat logs..."), 
+		runCmd("adb -s " + readyDev + " logcat -b all -c")
+		print("done!")
 
-	#Get state of the bt logs before starting
-	print ("getting current state of btsnoop_hci.log..."), 
-	timestr = time.strftime("%Y%m%d-%H%M%S")
-	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
-	print("done!")
+		if needBTSave:
+			#Get state of the bt logs before starting
+			print ("getting current state of btsnoop_hci.log..."), 
+			timestr = time.strftime("%Y%m%d-%H%M%S")
+			runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
+			print("done!")
 
-	#Delete advertising stats
-	print ("deleting packet capture files..."),
-	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/cap.txt")
-	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt")
-	print("done!")
+		#Delete advertising stats
+		print ("deleting packet capture files..."),
+		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/cap.txt")
+		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt")
+		print("done!")
 
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
