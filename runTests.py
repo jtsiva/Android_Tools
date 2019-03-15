@@ -10,40 +10,45 @@ import threading
 def checkUserIsRoot():
 	return 0 == os.getuid()
 
-def runCmd(cmd, output = False):
+def runCmd(cmd, output = False, bg  = False):
 	out = None
 	#with opLock:
-	proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
+	if bg:
+		subprocess.Popen(cmd, shell=True)
+	else:
+		proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+		                     stdout=subprocess.PIPE,
+		                     stderr=subprocess.PIPE)
 	
 	if output:
 		out = proc.stdout.read()
-	else:
-			proc.wait()
+	elif not bg:
+		proc.wait()
 
 	return out
 	
 
 def disconnectUSB(dev):
-	out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
-	port = re.search(r'\d+', out[0]).group()
+	# out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
+	# port = re.search(r'\d+', out[0]).group()
 
-	runCmd("uhubctl -a 0 -p " + port)
+	# runCmd("uhubctl -a 0 -p " + port)
 
-	return port
+	print ("Operation not supported")
+	return -1
 	
 def reconnectUSB(dev, port):
-	runCmd("uhubctl -a 1 -p " + port)
-	time.sleep(3)
-	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
-	while not (1 == int(out)):
-		print("."),
-		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
-		time.sleep(3)
-		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	# runCmd("uhubctl -a 1 -p " + port)
+	# time.sleep(3)
+	# out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
+	# while not (1 == int(out)):
+	# 	print("."),
+	# 	runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
+	# 	time.sleep(3)
+	# 	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
 
-	print("")
+	# print("")
+	print("Operation not supported")
 
 def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
@@ -91,13 +96,20 @@ def prepRun(readyDev, name, output):
 	runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
 	print("done!")
 
+	#Delete advertising stats
+	print ("deleting packet capture files..."),
+	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/cap.txt")
+	runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt")
+	print("done!")
+
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
+	runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt " + output + name + "-gatt_cap-" + timestr + ".log")
 	if advLogging:
-		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_log-" + timestr + ".log")
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_cap-" + timestr + ".log")
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
@@ -119,7 +131,7 @@ def toggleScreen(dev, state):
 
 #From: https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
 def pressButton(dev, name):
-	coords = runCmd("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$2)/2, ($3+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -",
+	coords = runCmd("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$3)/2, ($2+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -",
 			output=True)
 
 	runCmd("adb -s " + dev + " shell input tap " + coords)
@@ -130,9 +142,14 @@ def runJob(job, dev, output):
 	if not os.path.isdir(output):
 		output = './'
 
-	print ("running " + name + " on " + dev)
+	shellCmd = False
+	if 'shell' not in job['app']:
+		print ("running " + name + " on " + dev)
+	else:
+		shellCmd = True
+		print ("running shell command")
 
-	if 'None' not in job['app']:
+	if 'None' not in job['app'] and not shellCmd:
 		runCmd("adb -s " + dev + " shell am start -n " + job['app'])
 	
 	
@@ -140,17 +157,26 @@ def runJob(job, dev, output):
 	port = None
 
 	advLogging = False
+
+	noKill = False
 	for action in job['actions']:
 		print(dev + ": " + str(action))
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
-			if "--log-adv-t" in action['text']:
-				advLogging = True
+			if shellCmd:
+				runCmd(action['text'], bg=True)
+			else:
+				if "--log-adv-t" in action['text']:
+					advLogging = True
+				#clear any text
+				runCmd("adb -s " + dev + " shell input keyevent KEYCODE_MOVE_END")
+				runCmd("adb -s " + dev + " shell input keyevent --longpress " + " ".join(['KEYCODE_DEL']*50))
 
-			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
+				#now enter text
+				runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
 		elif 'collect' in action:
-			collectData = True
+			collectData = bool(action['collect'])
 		elif 'screenOn' in action:
 			toggleScreen(dev, action['screenOn'])
 		elif 'pluggedIn' in action:
@@ -160,8 +186,10 @@ def runJob(job, dev, output):
 				port = disconnectUSB(dev)
 		elif 'sleep' in action:
 			time.sleep(int(action['sleep']))
+		elif 'noKill' in action:
+			noKill = bool(action['noKill'])
 
-	if 'None' not in job['app']:
+	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
 
 	if collectData:
