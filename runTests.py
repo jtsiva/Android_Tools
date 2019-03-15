@@ -10,17 +10,20 @@ import threading
 def checkUserIsRoot():
 	return 0 == os.getuid()
 
-def runCmd(cmd, output = False):
+def runCmd(cmd, output = False, bg  = False):
 	out = None
 	#with opLock:
-	proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
-	                     stdout=subprocess.PIPE,
-	                     stderr=subprocess.PIPE)
+	if bg:
+		subprocess.Popen(cmd, shell=True)
+	else:
+		proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
+		                     stdout=subprocess.PIPE,
+		                     stderr=subprocess.PIPE)
 	
 	if output:
 		out = proc.stdout.read()
-	else:
-			proc.wait()
+	elif not bg:
+		proc.wait()
 
 	return out
 	
@@ -139,9 +142,14 @@ def runJob(job, dev, output):
 	if not os.path.isdir(output):
 		output = './'
 
-	print ("running " + name + " on " + dev)
+	shellCmd = False
+	if 'shell' not in job['app']:
+		print ("running " + name + " on " + dev)
+	else:
+		shellCmd = True
+		print ("running shell command")
 
-	if 'None' not in job['app']:
+	if 'None' not in job['app'] and not shellCmd:
 		runCmd("adb -s " + dev + " shell am start -n " + job['app'])
 	
 	
@@ -149,17 +157,26 @@ def runJob(job, dev, output):
 	port = None
 
 	advLogging = False
+
+	noKill = False
 	for action in job['actions']:
 		print(dev + ": " + str(action))
 		if 'button' in action:
 			pressButton(dev, action['button'])
 		elif 'text' in action:
-			if "--log-adv-t" in action['text']:
-				advLogging = True
+			if shellCmd:
+				runCmd(action['text'], bg=True)
+			else:
+				if "--log-adv-t" in action['text']:
+					advLogging = True
+				#clear any text
+				runCmd("adb -s " + dev + " shell input keyevent KEYCODE_MOVE_END")
+				runCmd("adb -s " + dev + " shell input keyevent --longpress " + " ".join(['KEYCODE_DEL']*50))
 
-			runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
+				#now enter text
+				runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
 		elif 'collect' in action:
-			collectData = True
+			collectData = bool(action['collect'])
 		elif 'screenOn' in action:
 			toggleScreen(dev, action['screenOn'])
 		elif 'pluggedIn' in action:
@@ -169,8 +186,10 @@ def runJob(job, dev, output):
 				port = disconnectUSB(dev)
 		elif 'sleep' in action:
 			time.sleep(int(action['sleep']))
+		elif 'noKill' in action:
+			noKill = bool(action['noKill'])
 
-	if 'None' not in job['app']:
+	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
 
 	if collectData:
