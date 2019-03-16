@@ -239,21 +239,32 @@ def main():
 	for job in jobs['jobs']:
 		dev = checkDevAvailability(devices,  jobCount, args.full_batt)
 		
-		runningDevs.append((dev, job['name']))
+		skipPrep = False
+		for action in job['actions']:
+			if 'collect' in action:
+				if not action['collect']:
+					skipPrep = True
+			else:
+				skipPrep = True
+
+		runningDevs.append((dev, job['name'], skipPrep))
 		threads.append(threading.Thread(target = runJob, args = (job, dev, args.output, )))
 		jobCount += 1
 		
 		if args.sync:
 			if len(threads) == maxConcurrent:
 				for t, d in zip(threads, runningDevs):
-					prepRun(d[0], d[1], args.output)
+					if not d[2]:
+						prepRun(d[0], d[1], args.output)
+					
 					t.start()
 				for t in threads:
 					t.join()
 				del threads[:]
 				del runningDevs[:]
 		else:
-			prepRun(dev, job['name'],args.output)
+			if not skipPrep: 
+				prepRun(dev, job['name'],args.output)
 			threads[-1].start()		
 
 			if len(threads) == maxConcurrent:
