@@ -14,7 +14,7 @@ def runCmd(cmd, output = False, bg  = False):
 	out = None
 	#with opLock:
 	if bg:
-		subprocess.Popen(cmd, shell=True)
+		proc = subprocess.Popen(cmd, shell=True)
 	else:
 		proc = subprocess.Popen(cmd, shell=True, stdin=subprocess.PIPE,
 		                     stdout=subprocess.PIPE,
@@ -166,7 +166,15 @@ def runJob(job, dev, output):
 			pressButton(dev, action['button'])
 		elif 'text' in action:
 			if shellCmd:
-				runCmd(action['text'], bg=True)
+				if 'iperf' in name:
+					#get ip addr
+					#print('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1')
+					ipAddr = runCmd('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1', output=True)
+					
+					#start iperf!
+					#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
+					runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'], bg=True)
+				
 			else:
 				if "--log-adv-t" in action['text']:
 					advLogging = True
@@ -239,7 +247,7 @@ def main():
 	for job in jobs['jobs']:
 		dev = checkDevAvailability(devices,  jobCount, args.full_batt)
 		
-		skipPrep = False
+		skipPrep = 'None' in job['app']
 		for action in job['actions']:
 			if 'collect' in action:
 				if not action['collect']:
@@ -254,8 +262,7 @@ def main():
 		if args.sync:
 			if len(threads) == maxConcurrent:
 				for t, d in zip(threads, runningDevs):
-					if not d[2]:
-						prepRun(d[0], d[1], args.output)
+					prepRun(d[0], d[1], args.output, not d[2])
 					
 					t.start()
 				for t in threads:
