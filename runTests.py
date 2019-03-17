@@ -108,9 +108,9 @@ def collect(dev, name, output, advLogging):
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
-	runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt " + output + name + "-gatt_cap-" + timestr + ".log")
+	runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt " + output + name + "-gatt_log-" + timestr + ".log")
 	if advLogging:
-		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_cap-" + timestr + ".log")
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_log-" + timestr + ".log")
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
