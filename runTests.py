@@ -99,8 +99,7 @@ def prepRun(readyDev, name, output, needBTSave = True):
 
 		#Delete advertising stats
 		print ("deleting packet capture files..."),
-		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/cap.txt")
-		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt")
+		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/edu.nd.cse.gatt_client/files/*")
 		print("done!")
 
 def collect(dev, name, output, advLogging):
@@ -108,9 +107,9 @@ def collect(dev, name, output, advLogging):
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
-	runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/gatt_cap.txt " + output + name + "-gatt_log-" + timestr + ".log")
-	if advLogging:
-		runCmd("adb -s " + dev + " pull sdcard/Android/data/com.adafruit.bleuart/files/cap.txt " + output + name + "-scan_log-" + timestr + ".log")
+	runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
+	runCmd("mv " + output + "files/* " + output)
+	runCmd("rm -r " + output + "files/")
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
