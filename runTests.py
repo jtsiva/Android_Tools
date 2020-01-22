@@ -99,7 +99,7 @@ def prepRun(readyDev, name, output, needBTSave = True):
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
-	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
+	runCmd("adb -s "  + dev + " bugreport  " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
 	runCmd("mv " + output + "files/* " + output)
 	runCmd("rm -r " + output + "files/")
@@ -136,13 +136,13 @@ def waitForApp (dev, app, timeout=0):
 
 	while (0 == timeout or timeout > (currentTime - start).seconds) and isAppRunning(dev, app):
 		time.sleep(5)
-		currentTime.datetime.now()
+		currentTime = datetime.now()
 
 
 def isAppRunning (dev, app):
-	out = runCmd ("adb -s " + dev + " shell pidof " + app)
+	out = runCmd ("adb -s " + dev + " shell pidof " + app.split('/')[0], output=True)
 
-	return None != out
+	return 0 < len(out)
 	
 
 def runJob(job, dev, output):
