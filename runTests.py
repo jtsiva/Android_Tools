@@ -93,7 +93,7 @@ def prepRun(readyDev, name, output, needBTSave = True):
 
 		#Delete advertising stats
 		print ("deleting packet capture files..."),
-		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/edu.nd.cse.gatt_client/files/*")
+		runCmd("adb -s " + readyDev + " shell rm sdcard/Android/data/edu.nd.cse.gatt_client/files/*")
 		print("done!")
 
 def collect(dev, name, output, advLogging):
