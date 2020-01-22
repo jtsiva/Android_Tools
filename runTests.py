@@ -3,6 +3,7 @@ import argparse
 import subprocess
 import os
 import time
+from datetime import datetime
 import re
 import threading
 
@@ -135,6 +136,21 @@ def pressButton(dev, name):
 			output=True)
 
 	runCmd("adb -s " + dev + " shell input tap " + coords)
+
+def waitForApp (dev, app, timeout=0):
+	start = datetime.now()
+
+	currentTime = datetime.now()
+
+	while (0 == timeout or timeout > (currentTime - start).seconds) and isAppRunning(dev, app):
+		time.sleep(5)
+		currentTime.datetime.now()
+
+
+def isAppRunning (dev, app):
+	out = runCmd ("adb -s " + dev + " shell pidof " + app)
+
+	return None != out
 	
 
 def runJob(job, dev, output):
@@ -196,6 +212,8 @@ def runJob(job, dev, output):
 			time.sleep(int(action['sleep']))
 		elif 'noKill' in action:
 			noKill = bool(action['noKill'])
+		elif 'wait' in action:
+			waitForApp(dev, job['app'], action['wait'])
 
 	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
