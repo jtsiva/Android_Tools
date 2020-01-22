@@ -91,13 +91,6 @@ def prepRun(readyDev, name, output, needBTSave = True):
 		runCmd("adb -s " + readyDev + " logcat -b all -c")
 		print("done!")
 
-		if needBTSave:
-			#Get state of the bt logs before starting
-			print ("getting current state of btsnoop_hci.log..."), 
-			timestr = time.strftime("%Y%m%d-%H%M%S")
-			runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
-			print("done!")
-
 		#Delete advertising stats
 		print ("deleting packet capture files..."),
 		runCmd("adb -s" + readyDev + " shell rm sdcard/Android/data/edu.nd.cse.gatt_client/files/*")
@@ -107,7 +100,6 @@ def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
 	runCmd("adb -s "  + dev + " bugreport  > " + output + name + "-battery-" + timestr + ".zip")
-	runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
 	runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
 	runCmd("mv " + output + "files/* " + output)
 	runCmd("rm -r " + output + "files/")
