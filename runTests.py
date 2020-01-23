@@ -134,6 +134,8 @@ def waitForApp (dev, app, timeout=0):
 
 	currentTime = datetime.now()
 
+	time.sleep(5)
+
 	while (0 == timeout or timeout > (currentTime - start).seconds) and isAppRunning(dev, app):
 		time.sleep(5)
 		currentTime = datetime.now()
@@ -158,7 +160,7 @@ def runJob(job, dev, output):
 		print ("running shell command")
 
 	if 'None' not in job['app'] and not shellCmd:
-		runCmd("adb -s " + dev + " shell am start -n " + job['app'])
+		runCmd("adb -s " + dev + " shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n " + job['app'])
 	
 	
 	collectData = False
