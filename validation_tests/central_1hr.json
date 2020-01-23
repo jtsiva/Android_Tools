@@ -1,0 +1,15 @@
+{
+	"job_name" : "central_test1_hr",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 3600},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		}
+	]
+}

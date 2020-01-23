@@ -1,0 +1,86 @@
+{
+	"name" : "simple_gatt",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_WR",
+			"actions" : [		 {"text" : "--central --scanSetting 2 --connectable --mtu 23 --gatt-comm WR"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_WR",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2 --connectable --gatt-comm WR"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_WC",
+			"actions" : [		 {"text" : "--central --scanSetting 2 --connectable --mtu 23 --gatt-comm WC"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_WC",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2 --connectable --gatt-comm WC"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_R",
+			"actions" : [		 {"text" : "--central --scanSetting 2 --connectable --mtu 23 --gatt-comm R"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_R",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2 --connectable --gatt-comm R"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "central_N",
+			"actions" : [		 {"text" : "--central --scanSetting 2 --connectable --mtu 23 --gatt-comm N"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "peripheral_N",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2 --connectable --gatt-comm N"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 20},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		}
+	]
+}

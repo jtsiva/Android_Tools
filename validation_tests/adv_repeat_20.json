@@ -1,0 +1,207 @@
+{
+	"name" : "adv_repeat_20",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_0",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_1",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_2",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_3",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_4",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_5",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_6",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_7",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_8",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_9",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_10",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_11",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_12",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_13",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_14",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_15",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_16",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_17",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_18",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "adv_19",
+			"actions" : [		 {"text" : "--peripheral --advInterval 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		}
+		
+	]
+}

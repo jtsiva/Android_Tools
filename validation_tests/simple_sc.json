@@ -1,0 +1,16 @@
+{
+	"name" : "simple_sc",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_0",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : false} ]
+		}
+	]
+}

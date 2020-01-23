@@ -1,0 +1,32 @@
+{
+	"name" : "simple_sc",
+	"jobs" :
+	[
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ],
+			"same_dev" : false
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"text" : "iperf3 -c 192.168.0.2 -p 5201 -u -b 256K -t 15 -i 0 --no-fq-socket-pacing"},
+						 {"noKill" : true} ],
+			"same_dev" : true
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_0",
+			"actions" : [{"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : false} ],
+			"same_dev" : true
+		}
+	]
+}

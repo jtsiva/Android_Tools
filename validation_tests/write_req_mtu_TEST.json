@@ -1,0 +1,42 @@
+{
+	"name" : "write_req_mtu",
+	"jobs" :
+	[
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_2",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_2",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_3",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 520 --ei \"dataSize\" 517 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_3",
+			"actions" : [	{"wait" : 0},
+							{"collect" : true}]
+		}
+	]
+}

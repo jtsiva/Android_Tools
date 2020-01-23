@@ -1,0 +1,206 @@
+{
+	"name" : "sc_repeat_20",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_0",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_1",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_2",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_3",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_4",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_5",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_6",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_7",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_8",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_9",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_10",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_11",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_12",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_13",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_14",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_15",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_16",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_17",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_18",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"name" : "scanner_19",
+			"actions" : [		 {"text" : "--central --log-adv-t --scanSetting 2"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false}, 
+						 {"sleep" : 10},
+						 {"pluggedIn": true},
+						 {"collect" : true} ]
+		}
+	]
+}

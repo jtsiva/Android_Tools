@@ -1,0 +1,33 @@
+{
+	"job_name" : "central_3_short_test",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 60},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 60},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		},
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"actions" : [{"text" : "--central"},
+						 {"button" : "GO"},
+						 {"pluggedIn": false},
+						 {"sleep" : 60},
+						 {"pluggedIn": true},
+						 {"collect": true}]
+		}
+	]
+}

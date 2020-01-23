@@ -1,0 +1,14 @@
+{
+	"job_name" : "screen_toggle",
+	"jobs" :
+	[
+		{
+			"app" : "com.adafruit.bleuart/.ArgumentSplash",
+			"actions" : [{"screenOn" : true}, 
+						 {"sleep" : 10},
+						 {"screenOn" : false},
+						 {"sleep" : 10},
+						 {"screenOn" : true}]
+		}
+	]
+}
