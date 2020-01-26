@@ -1,0 +1,186 @@
+{
+	"name" : "write_req_mtu",
+	"jobs" :
+	[
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_2",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_2",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_3",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 515 --ei \"dataSize\" 512 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_3",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_4",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_4",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_5",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_5",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_6",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 515 --ei \"dataSize\" 512 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_6",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_7",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_7",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_8",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_8",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_9",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 515 --ei \"dataSize\" 512 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_9",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_10",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_10",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_11",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_11",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_12",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 515 --ei \"dataSize\" 512 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_12",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_13",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_13",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_14",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_14",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_15",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"mtu\" 515 --ei \"dataSize\" 512 --ei \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"name" : "client_15",
+			"actions" : [	{"wait" : 300},
+							{"collect" : true}]
+		}
+	]
+}

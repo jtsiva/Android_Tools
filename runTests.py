@@ -99,7 +99,7 @@ def prepRun(readyDev, name, output, needBTSave = True):
 def collect(dev, name, output, advLogging):
 	timestr = time.strftime("%Y%m%d-%H%M%S")
 
-	runCmd("adb -s "  + dev + " bugreport  " + output + name + "-battery-" + timestr + ".zip")
+	#runCmd("adb -s "  + dev + " bugreport  " + output + name + "-battery-" + timestr + ".zip")
 	runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
 	runCmd("mv " + output + "files/* " + output)
 	runCmd("rm -r " + output + "files/")
