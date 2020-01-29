@@ -233,8 +233,6 @@ def main():
 	with open(args.input, "r") as f:
 	    jobs = json.loads(f.read())
 
-	runCmd("adb disconnect Android.local")
-	runCmd("adb connect Android.local") #If device is available, it will be at the top of the list now
 
 	proc = subprocess.Popen("adb devices | grep -w 'device'", shell=True, stdin=subprocess.PIPE,
 	                     stdout=subprocess.PIPE,
