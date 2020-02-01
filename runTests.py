@@ -91,12 +91,6 @@ def prepRun(readyDev, name, output, needBTSave = True):
 		runCmd("adb -s " + readyDev + " logcat -b all -c")
 		print("done!")
 
-		if needBTSave:
-			#Get state of the bt logs before starting
-			print ("getting current state of btsnoop_hci.log..."), 
-			timestr = time.strftime("%Y%m%d-%H%M%S")
-			runCmd("adb -s " + readyDev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log_start-" + timestr + ".log")
-			print("done!")
 
 		#Delete advertising stats
 		print ("deleting packet capture files..."),
@@ -174,8 +168,6 @@ def runJob(job, dev, output):
 	collectData = False
 	port = None
 
-	advLogging = False
-
 	noKill = False
 	for action in job['actions']:
 		print(dev + ": " + str(action))
@@ -193,8 +185,6 @@ def runJob(job, dev, output):
 					runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'], bg=True)
 				
 			else:
-				if "--log-adv-t" in action['text']:
-					advLogging = True
 				#clear any text
 				runCmd("adb -s " + dev + " shell input keyevent KEYCODE_MOVE_END")
 				runCmd("adb -s " + dev + " shell input keyevent --longpress " + " ".join(['KEYCODE_DEL']*50))
@@ -202,7 +192,15 @@ def runJob(job, dev, output):
 				#now enter text
 				runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
 		elif 'collect' in action:
-			collectData = bool(action['collect'])
+			if 'true' in action['collect']:
+				collectData = 'min'
+			elif 'bt' in action['collect']:
+				collectData = 'bt' #including min
+			elif 'all' in action['collect']:
+				collectData = 'all'
+			else:
+				collectData = None
+
 		elif 'screenOn' in action:
 			toggleScreen(dev, action['screenOn'])
 		elif 'pluggedIn' in action:
@@ -220,9 +218,7 @@ def runJob(job, dev, output):
 	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
 
-	if collectData:
-		collect(dev, name, output, advLogging)
-
+	collect(dev, name, output, collectData)
 
 
 def main():
