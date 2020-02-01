@@ -97,14 +97,24 @@ def prepRun(readyDev, name, output, needBTSave = True):
 		runCmd("adb -s " + readyDev + " shell rm sdcard/Android/data/edu.nd.cse.gatt_client/files/*")
 		print("done!")
 
-def collect(dev, name, output, advLogging):
-	timestr = time.strftime("%Y%m%d-%H%M%S")
+def collect(dev, name, output, collectOptions):
+	timestr = time.strftime("%Y%m%d%H%M%S")
 
-	runCmd("adb -s "  + dev + " bugreport  " + output + name + "-battery-" + timestr + ".zip")
-	#runCmd("adb -s " + dev + " pull sdcard/btsnoop_hci.log " + output + name + "-bt_log-" + timestr + ".log")
-	runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
-	runCmd("mv " + output + "files/* " + output)
-	runCmd("rm -r " + output + "files/")
+	if None is not collectOptions: #minimal data
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
+		runCmd("mv " + output + "files/* " + output)
+		runCmd("rm -r " + output + "files/")
+
+	if 'bt' in collectOptions:
+		runCmd("adb -s "  + dev + " bugreport bugreport.zip")
+		runCmd("unzip bugreport.zip -d bugreport_tmp")
+		runCmd("mv bugreport_tmp/bugreport-* bugreport_tmp/bugreport.txt")
+		runCmd("python btsnooze.py bugreport_tmp/bugreport.txt > " + output + name + "-btsnoop-" + timestr + ".log")
+		runCmd("rm -r bugreport_tmp/")
+		runCmd("rm bugreport.zip")
+	elif 'all' in collectOptions:
+		runCmd("adb -s "  + dev + " bugreport  " + output + name + "-bugreport-" + timestr + ".zip")
+
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
