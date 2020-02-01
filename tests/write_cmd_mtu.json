@@ -21,7 +21,7 @@
 							{"collect" : true} ]
 		},
 		{
-			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
 			"name" : "client_2",
 			"actions" : [	{"wait" : 300},
 							{"collect" : true}]
@@ -57,7 +57,7 @@
 							{"collect" : true} ]
 		},
 		{
-			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
 			"name" : "client_5",
 			"actions" : [	{"wait" : 300},
 							{"collect" : true}]
@@ -93,7 +93,7 @@
 							{"collect" : true} ]
 		},
 		{
-			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
 			"name" : "client_8",
 			"actions" : [	{"wait" : 300},
 							{"collect" : true}]
@@ -129,7 +129,7 @@
 							{"collect" : true} ]
 		},
 		{
-			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
 			"name" : "client_11",
 			"actions" : [	{"wait" : 300},
 							{"collect" : true}]
@@ -165,7 +165,7 @@
 							{"collect" : true} ]
 		},
 		{
-			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei  \"duration\" 16384 --ei \"durationIsTime\" 0",
 			"name" : "client_14",
 			"actions" : [	{"wait" : 300},
 							{"collect" : true}]
