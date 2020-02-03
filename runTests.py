@@ -202,7 +202,7 @@ def runJob(job, dev, output):
 				#now enter text
 				runCmd("adb -s " + dev + " shell input text " + str(action['text']).replace(" ", "%s"))
 		elif 'collect' in action:
-			if 'true' in action['collect']:
+			if action['collect'] or 'true' in action['collect']:
 				collectData = 'min'
 			elif 'bt' in action['collect']:
 				collectData = 'bt' #including min
