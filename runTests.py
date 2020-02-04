@@ -8,9 +8,6 @@ import re
 import threading
 
 
-def checkUserIsRoot():
-	return 0 == os.getuid()
-
 def runCmd(cmd, output = False, bg  = False):
 	out = None
 	#with opLock:
@@ -28,26 +25,6 @@ def runCmd(cmd, output = False, bg  = False):
 
 	return out
 	
-
-def disconnectUSB(dev):
-	out = runCmd("uhubctl | grep " + dev, output=True).split('\n')
-	port = re.search(r'\d+', out[0]).group()
-
-	runCmd("uhubctl -a 0 -p " + port)
-
-	return port
-	
-def reconnectUSB(dev, port):
-	runCmd("uhubctl -a 1 -p " + port)
-	time.sleep(3)
-	out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
-	while not (1 == int(out)):
-		print("."),
-		runCmd("uhubctl -a 2 -p " + port) #cycling the power seems to make sure it comes back
-		time.sleep(3)
-		out = runCmd("adb devices | grep " + dev + " | wc -l", output=True)
-
-	print("")
 
 def getBatteryLevel(dev):
 	all = runCmd("adb -s " + dev + " shell dumpsys battery | grep -m 1 level", output=True)
@@ -136,7 +113,10 @@ def toggleScreen(dev, state):
 
 #From: https://stackoverflow.com/questions/18924968/using-adb-to-access-a-particular-ui-control-on-the-screen
 def pressButton(dev, name):
-	coords = runCmd("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$3)/2, ($2+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -",
+	if 'hamburger' in name:
+		coords = "100 100"
+	else:
+		coords = runCmd("adb -s " + dev + " shell -x uiautomator dump  /dev/fd/1 | perl -ne 'printf \"%d %d\n\", ($1+$3)/2, ($2+$4)/2 if /text=\"" + name + "\" [^>]*bounds=\"\[(\d+),(\d+)\]\[(\d+),(\d+)\]\"/' -",
 			output=True)
 
 	runCmd("adb -s " + dev + " shell input tap " + coords)
@@ -213,17 +193,14 @@ def runJob(job, dev, output):
 
 		elif 'screenOn' in action:
 			toggleScreen(dev, action['screenOn'])
-		elif 'pluggedIn' in action:
-			if action['pluggedIn']:
-				reconnectUSB(dev, port)
-			else:
-				port = disconnectUSB(dev)
 		elif 'sleep' in action:
 			time.sleep(int(action['sleep']))
 		elif 'noKill' in action:
 			noKill = bool(action['noKill'])
 		elif 'wait' in action:
 			waitForApp(dev, job['app'], action['wait'])
+		else:
+			print('Unknown action: ' + action)
 
 	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
@@ -239,10 +216,6 @@ def main():
 	parser.add_argument('--full_batt', help='Require devices to have a full battery to run', action='store_true')
 	parser.add_argument ('--sync', help='when -n is greater than 1, waits for all devices to be ready', action='store_true')
 	args =  parser.parse_args()
-
-	if not checkUserIsRoot():
-		print ("Need root permissions (for enabling/disabling USB port)")
-		exit(1)
 
 	with open(args.input, "r") as f:
 	    jobs = json.loads(f.read())
