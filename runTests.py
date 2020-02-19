@@ -175,7 +175,7 @@ def runJob(job, dev, output):
 		runCmd("adb -s " + dev + " shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n " + job['app'])
 	
 	
-	collectData = False
+	collectData = None
 	port = None
 
 	noKill = False
