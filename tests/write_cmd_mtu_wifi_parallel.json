@@ -65,7 +65,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 2M -t 605 -R -J > iperf_out.json"},
+						 {"text" : "-b 2M -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
