@@ -105,15 +105,15 @@ def collect(dev, name, output, collectOptions):
 		runCmd("mv " + output + "files/* " + output)
 		runCmd("rm -r " + output + "files/")
 
-	if 'bt' in collectOptions:
-		runCmd("adb -s "  + dev + " bugreport bugreport.zip")
-		runCmd("unzip bugreport.zip -d bugreport_tmp")
-		runCmd("mv bugreport_tmp/bugreport-* bugreport_tmp/bugreport.txt")
-		runCmd("python btsnooze.py bugreport_tmp/bugreport.txt > " + output + name + "-btsnoop-" + timestr + ".log")
-		runCmd("rm -r bugreport_tmp/")
-		runCmd("rm bugreport.zip")
-	elif 'all' in collectOptions:
-		runCmd("adb -s "  + dev + " bugreport  " + output + name + "-bugreport-" + timestr + ".zip")
+		if 'bt' in collectOptions:
+			runCmd("adb -s "  + dev + " bugreport bugreport.zip")
+			runCmd("unzip bugreport.zip -d bugreport_tmp")
+			runCmd("mv bugreport_tmp/bugreport-* bugreport_tmp/bugreport.txt")
+			runCmd("python btsnooze.py bugreport_tmp/bugreport.txt > " + output + name + "-btsnoop-" + timestr + ".log")
+			runCmd("rm -r bugreport_tmp/")
+			runCmd("rm bugreport.zip")
+		elif 'all' in collectOptions:
+			runCmd("adb -s "  + dev + " bugreport  " + output + name + "-bugreport-" + timestr + ".zip")
 
 
 def getScreenState(dev):
@@ -185,14 +185,17 @@ def runJob(job, dev, output):
 			pressButton(dev, action['button'])
 		elif 'text' in action:
 			if shellCmd:
-				if 'iperf' in name:
-					#get ip addr
-					#print('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1')
-					ipAddr = runCmd('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1', output=True)
-					
-					#start iperf!
-					#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
-					runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'], bg=True)
+				if 'iperf3' in name:
+					if 'kill' in name:
+						runCmd('pkill iperf3')
+					else:
+						#get ip addr
+						#print('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1')
+						ipAddr = runCmd('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1', output=True)
+						
+						#start iperf!
+						#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
+						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'], bg=True)
 				
 			else:
 				#clear any text

@@ -18,7 +18,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 2M -t 605 -J > iperf_out.json"},
+						 {"text" : "-b 2M -t 0 -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
@@ -38,6 +38,16 @@
 			"name" : "client_1",
 			"actions" : [	{"wait" : 120},
 							{"collect" : true}]
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
 		},
 		{
 			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
@@ -75,6 +85,16 @@
 			"name" : "client_2",
 			"actions" : [	{"wait" : 120},
 							{"collect" : true}]
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
 		}
 	]
 }
