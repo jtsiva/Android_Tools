@@ -1,0 +1,43 @@
+{
+	"name" : "write_cmd_one-off",
+	"jobs" :
+	[
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 605 -J > iperf_out.json"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		}
+	]
+}
