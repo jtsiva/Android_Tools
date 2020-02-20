@@ -22,7 +22,7 @@ def runCmd(cmd, output = False, bg  = False):
 		                     stderr=subprocess.PIPE)
 	
 	if output:
-		out = proc.stdout.read()
+		out = proc.stdout.read().decode('utf-8')
 	elif not bg:
 		proc.wait()
 
@@ -175,6 +175,7 @@ def wifiOutputFixup(outputDir, app):
 	direction = None
 	target = None
 	global iperfCmd
+	global trafficIsParallel
 
 	cmds = iperfCmd.split('>')[0]
 	iperfCmd = None
@@ -188,19 +189,23 @@ def wifiOutputFixup(outputDir, app):
 	else:
 		direction = 'in'
 
-	if 'server' in app:
-		target = 'server'
+	if trafficIsParallel:
+		if 'server' in app:
+			target = 'server'
+		else:
+			target = 'client'
 	else:
-		target = 'client'
+		target = 'other'
 
-	print "rate: " + rate + " dir: " + direction + " target: " + target
+	print ("rate: " + rate + " dir: " + direction + " target: " + target)
 
-	for filename in os.listdir(outputDir):
-		print filename
-		
-		# csv_input = pd.read_csv('input.csv')
-		# csv_input['Berries'] = csv_input['Name']
-		# csv_input.to_csv('output.csv', index=False)
+	for filename in os.listdir(outputDir):		
+		csv_input = pd.read_csv(outputDir + filename)
+		csv_input['rate'] = rate
+		csv_input['dir'] = direction
+		csv_input['target'] = target
+
+		csv_input.to_csv('output.csv', index=False)
 	
 
 def runJob(job, dev, output):
@@ -219,6 +224,10 @@ def runJob(job, dev, output):
 		runCmd("adb -s " + dev + " shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n " + job['app'])
 	
 	global iperfCmd
+	global trafficIsParallel
+
+	if 'iperf' in job['app']:
+		trafficIsParallel = True
 	
 	collectData = None
 	port = None
@@ -242,7 +251,6 @@ def runJob(job, dev, output):
 						#start iperf!
 						#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
 						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + iperfCmd, bg=True)
-						print "setting iperf:" + iperfCmd
 				
 			else:
 				#clear any text
@@ -303,7 +311,7 @@ def main():
 	                     stderr=subprocess.PIPE)
 	devices = []
 	for line in proc.stdout.readlines():
-		devices.append({"id" : line.split('\t')[0], "running" : False})
+		devices.append({"id" : line.decode('utf-8').split('\t')[0], "running" : False})
 
 	#print(devices)
 
@@ -311,11 +319,11 @@ def main():
 		proc = subprocess.Popen("adb -s " + dev['id'] + " shell dumpsys battery | grep -m 1 level", shell=True, stdin=subprocess.PIPE,
 	                         stdout=subprocess.PIPE,
 	                         stderr=subprocess.PIPE)
-		dev['battery'] = int(proc.stdout.readlines()[0].split(':')[1].strip())
+		dev['battery'] = int(proc.stdout.readlines()[0].decode('utf-8').split(':')[1].strip())
 	
 	print("running job batch: " + jobs['name'])
 
-	maxConcurrent = min(len(devices), args.num_devs)
+	maxConcurrent = min(len(devices), int(args.num_devs))
 	
 	threads = []
 	runningDevs = []
@@ -361,5 +369,6 @@ def main():
 
 if __name__ == '__main__':
 	iperfCmd = None
+	trafficIsParallel = False
 	opLock = threading.Lock()
 	main()
