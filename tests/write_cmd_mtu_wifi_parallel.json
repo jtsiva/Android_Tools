@@ -1,5 +1,5 @@
 {
-	"name" : "write_cmd_one-off",
+	"name" : "wifi-parallel",
 	"jobs" :
 	[
 		{
@@ -30,23 +30,23 @@
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_1",
-			"actions" : [	{"wait" : 120},
-							{"collect" : true} ]
+			"actions" : [	{"wait" : 60},
+							{"collect" : true}]
 		},
 		{
 			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
 			"name" : "client_1",
-			"actions" : [	{"wait" : 120},
+			"actions" : [	{"wait" : 60},
 							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
 		},
 		{
 			"app" : "shell",
 			"name" : "iperf3 kill",
-			"actions" : []
-		},
-		{
-			"app" : "None",
-			"name" : "hold",
 			"actions" : []
 		},
 		{
@@ -77,23 +77,23 @@
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_2",
-			"actions" : [	{"wait" : 120},
+			"actions" : [	{"wait" : 60},
 							{"collect" : true} ]
 		},
 		{
 			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 247 --ei \"dataSize\" 244 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
 			"name" : "client_2",
-			"actions" : [	{"wait" : 120},
+			"actions" : [	{"wait" : 60},
 							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
 		},
 		{
 			"app" : "shell",
 			"name" : "iperf3 kill",
-			"actions" : []
-		},
-		{
-			"app" : "None",
-			"name" : "hold",
 			"actions" : []
 		}
 	]

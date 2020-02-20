@@ -115,6 +115,9 @@ def collect(dev, name, output, collectOptions):
 		elif 'all' in collectOptions:
 			runCmd("adb -s "  + dev + " bugreport  " + output + name + "-bugreport-" + timestr + ".zip")
 
+		if iperfCmd is not None:
+			wifiOutputFixup(output, name)
+
 
 def getScreenState(dev):
 	out = runCmd("adb -s " + dev + " shell dumpsys power | grep 'mHoldingDisplaySuspendBlocker'", output=True)
@@ -157,6 +160,47 @@ def isAppRunning (dev, app):
 	out = runCmd ("adb -s " + dev + " shell pidof " + app.split('/')[0], output=True)
 
 	return 0 < len(out)
+
+def wifiOutputFixup(outputDir, app):
+	import pandas as pd
+
+	"""
+	Need to get the wifi rate, which device was involved (client or server), and which
+	direction the traffic was flowing
+
+	We can get the rate and direction from the iperf command itself
+	we can either get who was involved by checking the app name for 'client' or 'server'
+	"""
+	rate = None
+	direction = None
+	target = None
+	global iperfCmd
+
+	cmds = iperfCmd.split('>')[0]
+	iperfCmd = None
+
+	match = re.search('-b(\s+)(\d+[KMG])', cmds)
+	if match:
+		rate = match.group(2)
+
+	if '-R' in cmds:
+		direction = 'out'
+	else:
+		direction = 'in'
+
+	if 'server' in app:
+		target = 'server'
+	else:
+		target = 'client'
+
+	print "rate: " + rate + " dir: " + direction + " target: " + target
+
+	for filename in os.listdir(outputDir):
+		print filename
+		
+		# csv_input = pd.read_csv('input.csv')
+		# csv_input['Berries'] = csv_input['Name']
+		# csv_input.to_csv('output.csv', index=False)
 	
 
 def runJob(job, dev, output):
@@ -174,6 +218,7 @@ def runJob(job, dev, output):
 	if 'None' not in job['app'] and not shellCmd:
 		runCmd("adb -s " + dev + " shell am start -a android.intent.action.MAIN -c android.intent.category.LAUNCHER -n " + job['app'])
 	
+	global iperfCmd
 	
 	collectData = None
 	port = None
@@ -185,17 +230,19 @@ def runJob(job, dev, output):
 			pressButton(dev, action['button'])
 		elif 'text' in action:
 			if shellCmd:
-				if 'iperf3' in name:
+				if 'iperf' in name:
 					if 'kill' in name:
 						runCmd('pkill iperf3')
 					else:
+						iperfCmd = action['text']
 						#get ip addr
 						#print('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1')
 						ipAddr = runCmd('adb -s ' + dev + ' shell ifconfig wlan0 | grep -oE \"\\b([0-9]{1,3}\.){3}[0-9]{1,3}\\b\" | head -1', output=True)
 						
 						#start iperf!
 						#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
-						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'], bg=True)
+						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + iperfCmd, bg=True)
+						print "setting iperf:" + iperfCmd
 				
 			else:
 				#clear any text
@@ -305,10 +352,14 @@ def main():
 
 			if len(threads) == maxConcurrent:
 				threads[0].join()
-				threads.pop(0)		
+				threads.pop(0)
+			#
+		#
+	#
 		 
 			
 
 if __name__ == '__main__':
+	iperfCmd = None
 	opLock = threading.Lock()
 	main()
