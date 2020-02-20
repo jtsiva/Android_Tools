@@ -157,8 +157,10 @@ def waitForApp (dev, app, timeout=0):
 		time.sleep(5)
 		currentTime = datetime.now()
 
-	if timeout > (currentTime - start).seconds:
+	if timeout < (currentTime - start).seconds:
 		print("xxxxx Test timed out! xxxxx")
+	else:
+		print("completed in: " + str((currentTime - start).seconds) + " seconds")
 
 
 def isAppRunning (dev, app):
