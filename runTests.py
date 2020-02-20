@@ -157,6 +157,9 @@ def waitForApp (dev, app, timeout=0):
 		time.sleep(5)
 		currentTime = datetime.now()
 
+	if timeout > (currentTime - start).seconds:
+		print("xxxxx Test timed out! xxxxx")
+
 
 def isAppRunning (dev, app):
 	out = runCmd ("adb -s " + dev + " shell pidof " + app.split('/')[0], output=True)
