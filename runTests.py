@@ -180,7 +180,7 @@ def wifiOutputFixup(dev, outputDir, app):
 	global trafficIsParallel
 
 	cmds = iperfCmd.split('>')[0]
-	iperfCmd = None
+	
 
 	match = re.search('-b(\s+)(\d+[KMG])', cmds)
 	if match:
@@ -191,6 +191,7 @@ def wifiOutputFixup(dev, outputDir, app):
 	else:
 		direction = 'in'
 
+	print ("DEBUG " + app)
 	#is the traffic in parallel to BLE traffic or ambient?
 	if trafficIsParallel:
 		#we only want to try to edit files if we are on the client (who collected the data)
@@ -202,16 +203,20 @@ def wifiOutputFixup(dev, outputDir, app):
 	else:
 		target = 'other'
 
-	print ("DEBUG: rate: " + rate + " dir: " + direction + " target: " + target)
+	if 'client' in app:
+		iperfCmd = None
+		print ("DEBUG rate: " + rate)
+		print ("DEBUG dir: " + direction)
+		print ("DEBUG target: " + target)
 
-	for filename in os.listdir(outputDir):
-		print (outputDir + filename)	
-		csv_input = pd.read_csv(outputDir + filename)
-		csv_input['wifi_rate'] = rate
-		csv_input['wifi_dir'] = direction
-		csv_input['wifi_target'] = target
+		for filename in os.listdir(outputDir):
+			print (outputDir + filename)	
+			csv_input = pd.read_csv(outputDir + filename)
+			csv_input['wifi_rate'] = rate
+			csv_input['wifi_dir'] = direction
+			csv_input['wifi_target'] = target
 
-		csv_input.to_csv(outputDir + filename, index=False)
+			csv_input.to_csv(outputDir + filename, index=False)
 	
 
 def runJob(job, dev, output):
