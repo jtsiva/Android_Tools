@@ -102,6 +102,9 @@ def collect(dev, name, output, collectOptions):
 
 	if None is not collectOptions: #minimal data
 		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
+		if iperfCmd is not None:
+			wifiOutputFixup(dev, output + 'files/', name)
+
 		runCmd("mv " + output + "files/* " + output)
 		runCmd("rm -r " + output + "files/")
 
@@ -115,8 +118,7 @@ def collect(dev, name, output, collectOptions):
 		elif 'all' in collectOptions:
 			runCmd("adb -s "  + dev + " bugreport  " + output + name + "-bugreport-" + timestr + ".zip")
 
-		if iperfCmd is not None:
-			wifiOutputFixup(output, name)
+		
 
 
 def getScreenState(dev):
@@ -161,7 +163,7 @@ def isAppRunning (dev, app):
 
 	return 0 < len(out)
 
-def wifiOutputFixup(outputDir, app):
+def wifiOutputFixup(dev, outputDir, app):
 	import pandas as pd
 
 	"""
@@ -189,23 +191,27 @@ def wifiOutputFixup(outputDir, app):
 	else:
 		direction = 'in'
 
+	#is the traffic in parallel to BLE traffic or ambient?
 	if trafficIsParallel:
-		if 'server' in app:
-			target = 'server'
-		else:
-			target = 'client'
+		#we only want to try to edit files if we are on the client (who collected the data)
+		if 'client' in app:
+			if isAppRunning(dev, "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity"):
+				target = 'client'
+			else:
+				target = 'server'
 	else:
 		target = 'other'
 
-	print ("rate: " + rate + " dir: " + direction + " target: " + target)
+	print ("DEBUG: rate: " + rate + " dir: " + direction + " target: " + target)
 
-	for filename in os.listdir(outputDir):		
+	for filename in os.listdir(outputDir):
+		print (outputDir + filename)	
 		csv_input = pd.read_csv(outputDir + filename)
-		csv_input['rate'] = rate
-		csv_input['dir'] = direction
-		csv_input['target'] = target
+		csv_input['wifi_rate'] = rate
+		csv_input['wifi_dir'] = direction
+		csv_input['wifi_target'] = target
 
-		csv_input.to_csv('output.csv', index=False)
+		csv_input.to_csv(outputDir + filename, index=False)
 	
 
 def runJob(job, dev, output):
