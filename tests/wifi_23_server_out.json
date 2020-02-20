@@ -1,0 +1,712 @@
+{
+	"name" : "wifi-parallel",
+	"jobs" :
+	[
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_2",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_2",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_3",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_3",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_4",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_4",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_5",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_5",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 512K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_6",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_6",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 512K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_7",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_7",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 512K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_8",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_8",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 512K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_9",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_9",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 512K -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_10",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_10",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_11",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_11",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 0  -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_12",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_12",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_13",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_13",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_14",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_14",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : [{"text" : "-s -1 -D"},
+						 {"button" : "Stopped"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf",
+			"actions" : [{"sleep" : 1},
+						 {"text" : "-b 2M -t 0 -R -J > iperf_out.json &"},
+						 {"noKill" : true} ]
+		},
+		{
+			"app" : "None",
+			"name" : "hold",
+			"actions" : []
+		},
+
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_15",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_15",
+			"actions" : [	{"wait" : 120},
+							{"collect" : true}]
+		},
+		{
+			"app" : "com.nextdoordeveloper.miperf.miperf/com.nextdoordeveloper.miperf.miperf.MainActivity",
+			"name" : "wifi",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		}
+		
+	]
+}
