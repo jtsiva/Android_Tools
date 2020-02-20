@@ -191,7 +191,6 @@ def wifiOutputFixup(dev, outputDir, app):
 	else:
 		direction = 'in'
 
-	print ("DEBUG " + app)
 	#is the traffic in parallel to BLE traffic or ambient?
 	if trafficIsParallel:
 		#we only want to try to edit files if we are on the client (who collected the data)
@@ -205,9 +204,9 @@ def wifiOutputFixup(dev, outputDir, app):
 
 	if 'client' in app:
 		iperfCmd = None
-		print ("DEBUG rate: " + rate)
-		print ("DEBUG dir: " + direction)
-		print ("DEBUG target: " + target)
+		# print ("DEBUG rate: " + rate)
+		# print ("DEBUG dir: " + direction)
+		# print ("DEBUG target: " + target)
 
 		for filename in os.listdir(outputDir):
 			print (outputDir + filename)	
