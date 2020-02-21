@@ -266,7 +266,8 @@ def runJob(job, dev, output):
 						#start iperf!
 						#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
 						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + iperfCmd, bg=True)
-				
+				else:
+					runCmd(action['text'])
 			else:
 				#clear any text
 				runCmd("adb -s " + dev + " shell input keyevent KEYCODE_MOVE_END")
