@@ -23,7 +23,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"text" : "-b 8K -l 100 -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
@@ -69,7 +69,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"text" : "-b 8K -l 100 -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
@@ -115,7 +115,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"text" : "-b 8K -l 100 -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
@@ -161,7 +161,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"text" : "-b 8K -l 100 -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
@@ -207,7 +207,7 @@
 			"app" : "shell",
 			"name" : "iperf",
 			"actions" : [{"sleep" : 1},
-						 {"text" : "-b 1K -t 0 -R -J > iperf_out.json &"},
+						 {"text" : "-b 8K -l 100 -t 0 -R -J > iperf_out.json &"},
 						 {"noKill" : true} ]
 		},
 		{
