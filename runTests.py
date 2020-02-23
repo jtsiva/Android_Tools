@@ -206,6 +206,7 @@ def wifiOutputFixup(dev, outputDir, app):
 				target = 'server'
 	else:
 		target = 'other'
+		direction = 'none'
 
 	if 'client' in app:
 		iperfCmd = None
@@ -256,7 +257,8 @@ def runJob(job, dev, output):
 			if shellCmd:
 				if 'iperf' in name:
 					if 'kill' in name:
-						runCmd('pkill iperf3')
+						print ("killing iperf3....")
+						runCmd('sudo pkill iperf3')
 					else:
 						iperfCmd = action['text']
 						#get ip addr
@@ -267,6 +269,8 @@ def runJob(job, dev, output):
 						#print("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + action['text'])
 						runCmd("iperf3 -c " + ipAddr.strip() + " -i 0 -u -p 5201 " + iperfCmd, bg=True)
 				else:
+					if 'iperf' in action['text']:
+						iperfCmd = action['text']
 					runCmd(action['text'])
 			else:
 				#clear any text
