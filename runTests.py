@@ -102,7 +102,10 @@ def collect(dev, name, output, collectOptions):
 
 	if None is not collectOptions: #minimal data
 		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
+		
 		if iperfCmd is not None:
+			while not os.path.exists(output+'files/'):
+				time.sleep(1) #wait after pulling to make sure we have all the files over
 			wifiOutputFixup(dev, output + 'files/', name)
 
 		runCmd("mv " + output + "files/* " + output)
