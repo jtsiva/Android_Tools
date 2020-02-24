@@ -5,7 +5,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -37,7 +37,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -70,7 +70,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -103,7 +103,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -136,7 +136,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 8K -l 100 -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -163,8 +163,13 @@
 		},
 		{
 			"app" : "shell",
+			"name" : "iperf3 kill",
+			"actions" : []
+		},
+		{
+			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -197,7 +202,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -230,7 +235,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -263,7 +268,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -296,7 +301,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 512K -l 6K -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -329,7 +334,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 2M -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 2M -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -362,7 +367,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 2M -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 2M -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -395,7 +400,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 2M -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 2M -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -428,7 +433,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 2M -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 2M -t 30 &"}]
 		},
 		{
 			"app" : "None",
@@ -461,7 +466,7 @@
 		{
 			"app" : "shell",
 			"name" : "shell-cmd",
-			"actions" : [{"text" : "iperf3 -c 192.168.0.4 -i 0 -u -p 5201 -b 2M -t 30 &"}]
+			"actions" : [{"text" : "iperf3 -c 192.168.0.5 -i 0 -u -p 5201 -b 2M -t 30 &"}]
 		},
 		{
 			"app" : "None",
