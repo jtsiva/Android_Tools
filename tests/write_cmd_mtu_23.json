@@ -1,0 +1,66 @@
+{
+	"name" : "mtu-23",
+	"jobs" :
+	[
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_2",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_2",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_3",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_3",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_4",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_4",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
+			"name" : "server_5",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 1 --ei \"mtu\" 23 --ei \"dataSize\" 20 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 0",
+			"name" : "client_5",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+	]
+}
