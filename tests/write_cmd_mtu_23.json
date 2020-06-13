@@ -13,7 +13,7 @@
 			"name" : "client_1",
 			"actions" : [	{"wait" : 180},
 							{"collect" : true}]
-		}
+		},
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_2",
@@ -25,7 +25,7 @@
 			"name" : "client_2",
 			"actions" : [	{"wait" : 180},
 							{"collect" : true}]
-		}
+		},
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_3",
@@ -37,7 +37,7 @@
 			"name" : "client_3",
 			"actions" : [	{"wait" : 180},
 							{"collect" : true}]
-		}
+		},
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_4",
@@ -49,7 +49,7 @@
 			"name" : "client_4",
 			"actions" : [	{"wait" : 180},
 							{"collect" : true}]
-		}
+		},
 		{
 			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer",
 			"name" : "server_5",
