@@ -227,6 +227,13 @@ def wifiOutputFixup(dev, outputDir, app):
 
 			csv_input.to_csv(outputDir + filename, index=False)
 	
+def multiClientOutputCleanup (outputDir, key):
+	"""
+	Adds a timestamp or unique key of some sort to each of the recently 
+	generated files so that they can all be associated with each other.
+	This value is added as a column value in each file
+	"""
+	pass
 
 def runJob(job, dev, output):
 	name = job['name']
