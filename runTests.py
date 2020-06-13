@@ -101,15 +101,16 @@ def collect(dev, name, output, collectOptions):
 	timestr = time.strftime("%Y%m%d%H%M%S")
 
 	if None is not collectOptions: #minimal data
-		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output)
-		
+		time.sleep(2) #wait for 2 seconds to make sure the files are written
+		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output + dev)
+		while not os.path.exists(output+dev+ '/'):
+			time.sleep(1) #wait after pulling to make sure we have all the files over
+			
 		if iperfCmd is not None:
-			while not os.path.exists(output+'files/'):
-				time.sleep(1) #wait after pulling to make sure we have all the files over
-			wifiOutputFixup(dev, output + 'files/', name)
+			wifiOutputFixup(dev, output +dev+ '/', name)
 
-		runCmd("mv " + output + "files/* " + output)
-		runCmd("rm -r " + output + "files/")
+		runCmd("mv " + output +dev+ "/* " + output)
+		runCmd("rm -r " + output+dev+ "/")
 
 		if 'bt' in collectOptions:
 			runCmd("adb -s "  + dev + " bugreport bugreport.zip")
@@ -321,9 +322,13 @@ def main():
 	parser.add_argument ('--sync', help='when -n is greater than 1, waits for all devices to be ready', action='store_true')
 	args =  parser.parse_args()
 
-	if not checkUserIsRoot():
-		print ("Need root permissions (for enabling/disabling USB port)")
-		exit(1)
+	#check the file to see if it contains actions that require root privileges
+	with open(args.input) as file:
+		contents = file.read()
+		if 'pluggedIn' in contents:
+			if not checkUserIsRoot():
+				print ("Need root permissions (for enabling/disabling USB port)")
+				exit(1)
 
 	with open(args.input, "r") as f:
 	    jobs = json.loads(f.read())
