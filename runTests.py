@@ -6,6 +6,7 @@ import time
 from datetime import datetime
 import re
 import threading
+import pandas as pd
 
 
 def checkUserIsRoot():
@@ -105,7 +106,9 @@ def collect(dev, name, output, collectOptions):
 		runCmd("adb -s " + dev + " pull sdcard/Android/data/edu.nd.cse.gatt_client/files/ " + output + dev)
 		while not os.path.exists(output+dev+ '/'):
 			time.sleep(1) #wait after pulling to make sure we have all the files over
-			
+		
+		identifyGroup(output+dev+"/") #even if only doing a simple pairing, it doesn't hurt
+
 		if iperfCmd is not None:
 			wifiOutputFixup(dev, output +dev+ '/', name)
 
@@ -173,7 +176,7 @@ def isAppRunning (dev, app):
 	return 0 < len(out)
 
 def wifiOutputFixup(dev, outputDir, app):
-	import pandas as pd
+
 
 	"""
 	Need to get the wifi rate, which device was involved (client or server), and which
@@ -227,13 +230,20 @@ def wifiOutputFixup(dev, outputDir, app):
 
 			csv_input.to_csv(outputDir + filename, index=False)
 	
-def multiClientOutputCleanup (outputDir, key):
+def identifyGroup (directory):
 	"""
 	Adds a timestamp or unique key of some sort to each of the recently 
 	generated files so that they can all be associated with each other.
 	This value is added as a column value in each file
 	"""
-	pass
+	global groupTS
+	for filename in os.listdir(directory):
+		print (directory + filename)
+		csv_input = pd.read_csv(directory + filename)
+		csv_input['group_ts'] = groupTS
+
+		csv_input.to_csv(directory + filename, index=False)
+
 
 def runJob(job, dev, output):
 	name = job['name']
@@ -321,6 +331,7 @@ def runJob(job, dev, output):
 
 
 def main():
+	global groupTS
 	parser = argparse.ArgumentParser()
 	parser.add_argument ("-i", "--input", required = True, help="path to jobs file")
 	parser.add_argument ("-o", "--output", required = False, default='./', help="path to output directory")
@@ -380,6 +391,7 @@ def main():
 		
 		if args.sync:
 			if len(threads) == maxConcurrent:
+				groupTS = time.strftime("%Y%m%d%H%M%S")
 				for t, d in zip(threads, runningDevs):
 					prepRun(d[0], d[1], args.output, not d[2])
 					
@@ -405,5 +417,6 @@ def main():
 if __name__ == '__main__':
 	iperfCmd = None
 	trafficIsParallel = False
+	groupTS = None
 	opLock = threading.Lock()
 	main()
