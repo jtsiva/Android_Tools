@@ -154,6 +154,7 @@ def pressButton(dev, name):
 	runCmd("adb -s " + dev + " shell input tap " + coords)
 
 def waitForApp (dev, app, timeout=0):
+	timedOut = False
 	start = datetime.now()
 
 	currentTime = datetime.now()
@@ -166,8 +167,12 @@ def waitForApp (dev, app, timeout=0):
 
 	if timeout < (currentTime - start).seconds:
 		print("xxxxx Test timed out! xxxxx")
+		timedOut = True
 	else:
 		print("completed in: " + str((currentTime - start).seconds) + " seconds")
+	#
+	
+	return timedOut
 
 
 def isAppRunning (dev, app):
@@ -322,7 +327,8 @@ def runJob(job, dev, output):
 		elif 'noKill' in action:
 			noKill = bool(action['noKill'])
 		elif 'wait' in action:
-			waitForApp(dev, job['app'], action['wait'])
+			if waitForApp(dev, job['app'], action['wait']):
+				collectData = None
 
 	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
