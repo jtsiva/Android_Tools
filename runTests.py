@@ -272,6 +272,7 @@ def runJob(job, dev, output):
 		trafficIsParallel = True
 	
 	collectData = None
+	skipCollecting = False
 	port = None
 
 	noKill = False
@@ -315,6 +316,9 @@ def runJob(job, dev, output):
 			else:
 				collectData = None
 
+			if skipCollecting:
+				collectData = None
+				
 		elif 'screenOn' in action:
 			toggleScreen(dev, action['screenOn'])
 		elif 'pluggedIn' in action:
@@ -328,7 +332,7 @@ def runJob(job, dev, output):
 			noKill = bool(action['noKill'])
 		elif 'wait' in action:
 			if waitForApp(dev, job['app'], action['wait']):
-				collectData = None
+				skipCollecting = True
 
 	if 'None' not in job['app'] and not noKill:
 		runCmd("adb -s " + dev + " shell am force-stop " + job['app'].split('/')[0])
