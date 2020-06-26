@@ -1,0 +1,61 @@
+{
+	"name" : "multi_client_1_write_req",
+	"jobs" :
+	[
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer --ei \"requiredConnections\" 1",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 0 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 2",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer --ei \"requiredConnections\" 1",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 0 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 2",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer --ei \"requiredConnections\" 1",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 0 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 2",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer --ei \"requiredConnections\" 1",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 0 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 2",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_server/.BenchmarkServer --ei \"requiredConnections\" 1",
+			"name" : "server_1",
+			"actions" : [	{"wait" : 180} ]
+		},
+		{
+			"app" : "edu.nd.cse.gatt_client/.BenchmarkClient --ei \"commMethod\" 0 --ei \"mtu\" 250 --ei \"dataSize\" 247 --ei \"duration\" 16384 --ei \"durationIsTime\" 0 --ei \"connInterval\" 2",
+			"name" : "client_1",
+			"actions" : [	{"wait" : 180},
+							{"collect" : true}]
+		}
+	]
+}
